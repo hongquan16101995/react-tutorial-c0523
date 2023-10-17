@@ -6,15 +6,20 @@ import reportWebVitals from './reportWebVitals';
 import ElementJSX from "./component/ElementJSX";
 import Element from "./component/Element";
 import Demo from "./component/Demo";
+import List from "./animal/List";
+import Create from "./animal/Create";
+import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        {/*<App/>*/}
+    <BrowserRouter>
+        <App/>
         {/*<ElementJSX/>*/}
-        <Element/>
-        <Demo/>
-    </React.StrictMode>
+        {/*<Element/>*/}
+        {/*<Demo/>*/}
+        {/*<List/>*/}
+        {/*<Create/>*/}
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
