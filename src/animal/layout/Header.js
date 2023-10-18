@@ -1,6 +1,8 @@
+import {Link} from "react-router-dom";
+
 function Header() {
     return (
-        <h1>Đây là header</h1>
+        <Link className={'btn btn-success'} to={'/student'}>Student</Link>
     )
 }
 

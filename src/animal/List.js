@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {displayAnimal} from "./service/AnimalService";
 import {Link} from "react-router-dom";
+import Header from "./layout/Header";
 
 function List() {
     let [animals, setAnimals] = useState([]);
@@ -11,6 +12,7 @@ function List() {
 
     return (
         <>
+            <Header/><br/>
             <Link to={'/create'}>Create new animal</Link>
             <table>
                 <thead>
