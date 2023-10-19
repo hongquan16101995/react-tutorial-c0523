@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import axios from "axios"
 import {Link} from "react-router-dom";
+import {deleteStudentById, findAllStudent, findAllStudentByName} from "./service/StudentService";
 
 export default function ListStudent() {
     let [students, setStudents] = useState([])
@@ -8,34 +8,24 @@ export default function ListStudent() {
     let [search, setSearch] = useState("")
 
     useEffect(() => {
-        findAll()
+        findAllStudent().then((result) =>{
+            setStudents(result)
+        })
     }, [checkDelete])
-
-    function findAll() {
-        axios.get("http://localhost:8080/api/students")
-            .then(response => {
-                    setStudents(response.data)
-                }
-            )
-    }
 
     function deleteStudent(id) {
         if (window.confirm("Are you sure?")) {
-            axios.delete("http://localhost:8080/api/students/" + id)
-                .then(() => {
-                        setCheckDelete(!checkDelete)
-                        alert("Delete successfully!")
-                    }
-                )
+            deleteStudentById(id).then(() =>{
+                setCheckDelete(!checkDelete)
+                alert("Delete successfully!")
+            })
         }
     }
 
     function searchByName() {
-        axios.post("http://localhost:8080/api/students/search?name="+ search)
-            .then(response => {
-                    setStudents(response.data)
-                }
-            )
+        findAllStudentByName(search).then((result) => {
+            setStudents(result)
+        })
     }
 
     function ageAsc() {
@@ -96,6 +86,8 @@ export default function ListStudent() {
                         <th>Name</th>
                         <th>Age</th>
                         <th>Point</th>
+                        <th>Classroom</th>
+                        <th>Classrooms</th>
                         <th colSpan={2} style={{width: '20%', textAlign: "center"}}>Action</th>
                     </tr>
                     </thead>
@@ -108,6 +100,16 @@ export default function ListStudent() {
                                     <td>{s.name}</td>
                                     <td>{s.age}</td>
                                     <td>{s.point}</td>
+                                    <td>{s.classroom.name}</td>
+                                    <td>
+                                        {s.classrooms.map((sc) => {
+                                            return (
+                                                <>
+                                                    <span>{sc.name}</span><br/>
+                                                </>
+                                            )
+                                        })}
+                                    </td>
                                     <td>
                                         <Link className={'btn btn-warning update'} to={'/student/update/' + s.id}>
                                             Update

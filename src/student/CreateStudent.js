@@ -1,14 +1,21 @@
 import {Field, Form, Formik} from "formik";
-import axios from 'axios'
 import {Link, useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {changeValueCheckbox, findAllClassroom, saveStudent} from "./service/StudentService";
 
 export default function CreateStudent() {
     let navigate = useNavigate();
+    let [classrooms, setClassrooms] = useState([])
+    let [cls, setCls] = useState([])
 
-    function createStudent(e) {
-        axios.post("http://localhost:8080/api/students", e).then(() => {
-            navigate('/student')
+    useEffect(() => {
+        findAllClassroom().then((result) => {
+            setClassrooms(result)
         })
+    }, [])
+    function createStudent(e) {
+        e.classrooms = cls
+        saveStudent(e, navigate).then()
     }
 
     return (
@@ -19,7 +26,10 @@ export default function CreateStudent() {
                     initialValues={{
                         name: '',
                         age: '',
-                        point: ''
+                        point: '',
+                        classroom: {
+                            id: ''
+                        }
                     }}
                     onSubmit={(e) => {
                         createStudent(e)
@@ -37,6 +47,34 @@ export default function CreateStudent() {
                         <div className="mb-3">
                             <label htmlFor={'point'} className="form-label">Point</label>
                             <Field type={'number'} name={'point'} className={'form-control'} id="{'point'}"/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor={'classroom'} className="form-label">Classroom</label>
+                            <Field as={'select'} name={'classroom.id'} className={'form-control'} id="{'classroom'}">
+                                <option>------------</option>
+                                {classrooms.map((c) => {
+                                    return (
+                                        <>
+                                            <option value={c.id}>{c.name}</option>
+                                        </>
+                                    )
+                                })}
+                            </Field>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor={''} className="form-label">Classrooms</label><br/>
+                            {classrooms.map((c) => {
+                                return (
+                                    <>
+                                        <input className="form-check-input"
+                                               type="checkbox" value={c.id}
+                                        onChange={(e) => {
+                                            changeValueCheckbox(e, cls, setCls)
+                                        }}/>
+                                        <label className="form-check-label">{c.name}</label>
+                                    </>
+                                )
+                            })}
                         </div>
                         <div style={{textAlign: "center"}}>
                             <button className={'btn btn-primary'} type={'submit'}>Create</button>
