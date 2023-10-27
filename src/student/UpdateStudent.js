@@ -11,30 +11,18 @@ export default function UpdateStudent() {
     let [cls, setCls] = useState([])
 
     useEffect(() => {
-        findStudentById(id).then((a) => {
-            setStudent(a)
-        })
-
         findAllClassroom().then((result) => {
             setClassrooms(result)
+        })
+        findStudentById(id).then((a) => {
+            setStudent(a)
+            setCls(a.classrooms)
         })
     }, [])
 
     function updateStudent(e) {
         e.classrooms = cls
         saveStudent(e, navigate).then()
-    }
-
-    function checkCheckbox(id) {
-        for (let i = 0; i < student.classrooms.length; i++) {
-            if (student.classrooms[i].id === id) {
-                return true
-            }
-        }
-         return false
-        // classrooms.find((cl) => {
-        //     return cl.id === id
-        // })
     }
 
     return (
@@ -76,14 +64,14 @@ export default function UpdateStudent() {
                         </div>
                         <div className="mb-3">
                             <label htmlFor={''} className="form-label">Classrooms</label><br/>
-                            {classrooms.map((c) => {
+                            {classrooms.map((c, count = 0) => {
                                 return (
                                     <>
                                         <input className="form-check-input"
                                                type="checkbox" value={c.id}
-                                               checked={() => {
-                                                   checkCheckbox(c.id)
-                                               }}
+                                               checked={cls.find((cl) => {
+                                                   return cl.id === c.id
+                                               })}
                                                onChange={(e) => {
                                                    changeValueCheckbox(e, cls, setCls)
                                                }}

@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {deleteStudentById, findAllStudent, findAllStudentByName} from "./service/StudentService";
+import axios from "axios";
 
 export default function ListStudent() {
     let [students, setStudents] = useState([])

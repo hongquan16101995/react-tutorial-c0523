@@ -10,16 +10,18 @@ import Demo from "./component/Demo";
 import List from "./animal/List";
 import Create from "./animal/Create";
 import {BrowserRouter} from "react-router-dom";
+import ChatRoom from "./chatroom/ChatRoom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-        <App/>
+        {/*<App/>*/}
         {/*<ElementJSX/>*/}
         {/*<Element/>*/}
         {/*<Demo/>*/}
         {/*<ListStudent/>*/}
         {/*<CreateStudent/>*/}
+        <ChatRoom/>
     </BrowserRouter>
 );
 
